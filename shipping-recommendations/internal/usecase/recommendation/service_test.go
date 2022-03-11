@@ -3,6 +3,8 @@ package recommendation
 import (
 	"testing"
 
+	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/infrastructure/repository"
+	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/vo"
 	"github.com/stretchr/testify/assert"
 )
 
