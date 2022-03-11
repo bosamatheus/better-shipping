@@ -3,33 +3,56 @@ package recommendation
 import (
 	"testing"
 
-	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/infrastructure/repository"
+	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/usecase/recommendation/mocks"
 	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/vo"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestService_GetRecommendations(t *testing.T) {
-	externalAPI := "/api/v1/shipping-options"
-	s := &Service{
-		repo: repository.NewShippingOptionsAPIClient(externalAPI),
-	}
+	t.Run("No shipping options available", func(t *testing.T) {
+		want := []vo.ShippingOption{}
+		repoMock := new(mocks.Repository)
+		repoMock.On("GetShippingOptions").Return([]vo.ShippingOption{}, nil)
+		s := NewService(repoMock)
 
-	testCases := []struct {
-		name    string
-		want    []vo.ShippingOption
-		wantErr error
-	}{
+		got, err := s.GetRecommendations()
+
+		assert.Equal(t, want, got)
+		assert.Nil(t, err)
+	})
+
+	t.Run("Same shipping costs and estimated delivery dates", func(t *testing.T) {
+		want := newFixtureShippingOptionsSameCostsAndEstimatedDays()
+		repoMock := new(mocks.Repository)
+		repoMock.On("GetShippingOptions").Return(newFixtureShippingOptionsSameCostsAndEstimatedDays(), nil)
+		s := NewService(repoMock)
+
+		got, err := s.GetRecommendations()
+
+		assert.Equal(t, want, got)
+		assert.Nil(t, err)
+	})
+}
+
+func newFixtureShippingOptionsSameCostsAndEstimatedDays() []vo.ShippingOption {
+	return []vo.ShippingOption{
 		{
-			"No shipping options available", []vo.ShippingOption{}, nil,
+			Name:          "Option 1",
+			ShippingType:  "Delivery",
+			Cost:          10.0,
+			EstimatedDays: 3,
 		},
-	}
-
-	for _, tc := range testCases {
-		t.Run(tc.name, func(t *testing.T) {
-			got, err := s.GetRecommendations()
-
-			assert.Equal(t, tc.want, got)
-			assert.Equal(t, tc.wantErr, err)
-		})
+		{
+			Name:          "Option 2",
+			ShippingType:  "Custom",
+			Cost:          10.0,
+			EstimatedDays: 3,
+		},
+		{
+			Name:          "Option 3",
+			ShippingType:  "Pickup",
+			Cost:          10.0,
+			EstimatedDays: 3,
+		},
 	}
 }
