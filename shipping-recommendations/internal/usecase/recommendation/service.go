@@ -22,13 +22,23 @@ func (s *Service) GetRecommendations() ([]vo.ShippingOption, error) {
 		return nil, err
 	}
 
-	sort.SliceStable(options, func(i, j int) bool {
-		return options[i].EstimatedDays < options[j].EstimatedDays ||
-			options[i].Cost < options[j].Cost
-	})
-	return options, nil
+	recommendations := s.sortShippingOptions(options)
+	return recommendations, nil
 }
 
 func (s *Service) getShippingOptions() ([]vo.ShippingOption, error) {
 	return s.repo.GetShippingOptions()
+}
+
+func (s *Service) sortShippingOptions(options []vo.ShippingOption) []vo.ShippingOption {
+	recommendations := make([]vo.ShippingOption, len(options))
+	copy(recommendations, options)
+
+	sort.SliceStable(recommendations, func(i, j int) bool {
+		sameCosts := recommendations[i].Cost == recommendations[j].Cost
+		lowerCosts := recommendations[i].Cost < recommendations[j].Cost
+		lowerEstimatedDays := recommendations[i].EstimatedDays < recommendations[j].EstimatedDays
+		return sameCosts && lowerEstimatedDays || lowerCosts
+	})
+	return recommendations
 }

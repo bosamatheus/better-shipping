@@ -4,7 +4,6 @@ import "github.com/bosamatheus/better-shipping/shipping-recommendations/internal
 
 type UseCase interface {
 	GetRecommendations() ([]vo.ShippingOption, error)
-	getShippingOptions() ([]vo.ShippingOption, error)
 }
 
 type Repository interface {
