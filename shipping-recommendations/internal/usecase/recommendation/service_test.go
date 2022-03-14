@@ -1,6 +1,7 @@
 package recommendation
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/usecase/recommendation/mocks"
@@ -43,6 +44,17 @@ func TestService_GetRecommendations(t *testing.T) {
 
 		assert.Equal(t, want, got)
 		assert.Nil(t, err)
+	})
+
+	t.Run("Error while getting shipping options", func(t *testing.T) {
+		repoMock := new(mocks.Repository)
+		repoMock.On("GetShippingOptions").Return(nil, errors.New("error"))
+		s := NewService(repoMock)
+
+		got, err := s.GetRecommendations()
+
+		assert.Nil(t, got)
+		assert.Error(t, err)
 	})
 }
 
