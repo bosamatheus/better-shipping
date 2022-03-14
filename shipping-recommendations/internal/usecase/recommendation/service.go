@@ -23,7 +23,8 @@ func (s *Service) GetRecommendations() ([]vo.ShippingOption, error) {
 	}
 
 	sort.SliceStable(options, func(i, j int) bool {
-		return options[i].EstimatedDays < options[j].EstimatedDays
+		return options[i].EstimatedDays < options[j].EstimatedDays ||
+			options[i].Cost < options[j].Cost
 	})
 	return options, nil
 }

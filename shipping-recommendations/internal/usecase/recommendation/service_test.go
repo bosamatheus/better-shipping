@@ -23,9 +23,9 @@ func TestService_GetRecommendations(t *testing.T) {
 	})
 
 	t.Run("Same shipping costs and same estimated delivery dates", func(t *testing.T) {
-		want := newFixtureExpectedSameCostsAndSameDaysShippingOptions()
+		options, want := newFixtureSameCostsAndSameDaysShippingOptions()
 		repoMock := new(mocks.Repository)
-		repoMock.On("GetShippingOptions").Return(newFixtureMockSameCostsAndSameDaysShippingOptions(), nil)
+		repoMock.On("GetShippingOptions").Return(options, nil)
 		s := NewService(repoMock)
 
 		got, err := s.GetRecommendations()
@@ -35,9 +35,21 @@ func TestService_GetRecommendations(t *testing.T) {
 	})
 
 	t.Run("Same shipping costs and different estimated delivery dates", func(t *testing.T) {
-		want := newFixtureExpectedSameCostsAndDifferentDaysShippingOptions()
+		options, want := newFixtureSameCostsAndDifferentDaysShippingOptions()
 		repoMock := new(mocks.Repository)
-		repoMock.On("GetShippingOptions").Return(newFixtureMockSameCostsAndDifferentDaysShippingOptions(), nil)
+		repoMock.On("GetShippingOptions").Return(options, nil)
+		s := NewService(repoMock)
+
+		got, err := s.GetRecommendations()
+
+		assert.Equal(t, want, got)
+		assert.Nil(t, err)
+	})
+
+	t.Run("Different shipping costs and same estimated delivery dates", func(t *testing.T) {
+		options, want := newFixtureDifferentCostsAndSameDaysShippingOptions()
+		repoMock := new(mocks.Repository)
+		repoMock.On("GetShippingOptions").Return(options, nil)
 		s := NewService(repoMock)
 
 		got, err := s.GetRecommendations()
@@ -58,94 +70,44 @@ func TestService_GetRecommendations(t *testing.T) {
 	})
 }
 
-func newFixtureMockSameCostsAndSameDaysShippingOptions() []vo.ShippingOption {
-	return []vo.ShippingOption{
-		{
-			Name:          "Option 1",
-			ShippingType:  "Delivery",
-			Cost:          10.0,
-			EstimatedDays: 3,
-		},
-		{
-			Name:          "Option 2",
-			ShippingType:  "Custom",
-			Cost:          10.0,
-			EstimatedDays: 3,
-		},
-		{
-			Name:          "Option 3",
-			ShippingType:  "Pickup",
-			Cost:          10.0,
-			EstimatedDays: 3,
-		},
+func newFixtureSameCostsAndSameDaysShippingOptions() ([]vo.ShippingOption, []vo.ShippingOption) {
+	options := []vo.ShippingOption{
+		{Name: "Option 1", ShippingType: "Delivery", Cost: 10.0, EstimatedDays: 3},
+		{Name: "Option 2", ShippingType: "Custom", Cost: 10.0, EstimatedDays: 3},
+		{Name: "Option 3", ShippingType: "Pickup", Cost: 10.0, EstimatedDays: 3},
 	}
+	recommendations := []vo.ShippingOption{
+		{Name: "Option 1", ShippingType: "Delivery", Cost: 10.0, EstimatedDays: 3},
+		{Name: "Option 2", ShippingType: "Custom", Cost: 10.0, EstimatedDays: 3},
+		{Name: "Option 3", ShippingType: "Pickup", Cost: 10.0, EstimatedDays: 3},
+	}
+	return options, recommendations
 }
 
-func newFixtureExpectedSameCostsAndSameDaysShippingOptions() []vo.ShippingOption {
-	return []vo.ShippingOption{
-		{
-			Name:          "Option 1",
-			ShippingType:  "Delivery",
-			Cost:          10.0,
-			EstimatedDays: 3,
-		},
-		{
-			Name:          "Option 2",
-			ShippingType:  "Custom",
-			Cost:          10.0,
-			EstimatedDays: 3,
-		},
-		{
-			Name:          "Option 3",
-			ShippingType:  "Pickup",
-			Cost:          10.0,
-			EstimatedDays: 3,
-		},
+func newFixtureSameCostsAndDifferentDaysShippingOptions() ([]vo.ShippingOption, []vo.ShippingOption) {
+	options := []vo.ShippingOption{
+		{Name: "Option 1", ShippingType: "Delivery", Cost: 10.0, EstimatedDays: 5},
+		{Name: "Option 2", ShippingType: "Custom", Cost: 10.0, EstimatedDays: 2},
+		{Name: "Option 3", ShippingType: "Pickup", Cost: 10.0, EstimatedDays: 3},
 	}
+	recommendations := []vo.ShippingOption{
+		{Name: "Option 2", ShippingType: "Custom", Cost: 10.0, EstimatedDays: 2},
+		{Name: "Option 3", ShippingType: "Pickup", Cost: 10.0, EstimatedDays: 3},
+		{Name: "Option 1", ShippingType: "Delivery", Cost: 10.0, EstimatedDays: 5},
+	}
+	return options, recommendations
 }
 
-func newFixtureMockSameCostsAndDifferentDaysShippingOptions() []vo.ShippingOption {
-	return []vo.ShippingOption{
-		{
-			Name:          "Option 1",
-			ShippingType:  "Delivery",
-			Cost:          10.0,
-			EstimatedDays: 5,
-		},
-		{
-			Name:          "Option 2",
-			ShippingType:  "Custom",
-			Cost:          10.0,
-			EstimatedDays: 2,
-		},
-		{
-			Name:          "Option 3",
-			ShippingType:  "Pickup",
-			Cost:          10.0,
-			EstimatedDays: 3,
-		},
+func newFixtureDifferentCostsAndSameDaysShippingOptions() ([]vo.ShippingOption, []vo.ShippingOption) {
+	options := []vo.ShippingOption{
+		{Name: "Option 1", ShippingType: "Delivery", Cost: 6.0, EstimatedDays: 3},
+		{Name: "Option 2", ShippingType: "Custom", Cost: 5.0, EstimatedDays: 3},
+		{Name: "Option 3", ShippingType: "Pickup", Cost: 10.0, EstimatedDays: 3},
 	}
-}
-
-func newFixtureExpectedSameCostsAndDifferentDaysShippingOptions() []vo.ShippingOption {
-	return []vo.ShippingOption{
-		{
-			Name:          "Option 2",
-			ShippingType:  "Custom",
-			Cost:          10.0,
-			EstimatedDays: 2,
-		},
-		{
-			Name:          "Option 3",
-			ShippingType:  "Pickup",
-			Cost:          10.0,
-			EstimatedDays: 3,
-		},
-		{
-			Name:          "Option 1",
-			ShippingType:  "Delivery",
-			Cost:          10.0,
-			EstimatedDays: 5,
-		},
+	recommendations := []vo.ShippingOption{
+		{Name: "Option 2", ShippingType: "Custom", Cost: 5.0, EstimatedDays: 3},
+		{Name: "Option 1", ShippingType: "Delivery", Cost: 6.0, EstimatedDays: 3},
+		{Name: "Option 3", ShippingType: "Pickup", Cost: 10.0, EstimatedDays: 3},
 	}
+	return options, recommendations
 }
