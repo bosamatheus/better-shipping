@@ -1,6 +1,10 @@
 package recommendation
 
-import "github.com/bosamatheus/better-shipping/shipping-recommendations/internal/vo"
+import (
+	"sort"
+
+	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/vo"
+)
 
 type Service struct {
 	repo Repository
@@ -13,7 +17,15 @@ func NewService(repo Repository) *Service {
 }
 
 func (s *Service) GetRecommendations() ([]vo.ShippingOption, error) {
-	return s.getShippingOptions()
+	options, err := s.getShippingOptions()
+	if err != nil {
+		return nil, err
+	}
+
+	sort.SliceStable(options, func(i, j int) bool {
+		return options[i].EstimatedDays < options[j].EstimatedDays
+	})
+	return options, nil
 }
 
 func (s *Service) getShippingOptions() ([]vo.ShippingOption, error) {
