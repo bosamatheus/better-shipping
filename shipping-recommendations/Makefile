@@ -12,6 +12,9 @@ build-mocks: ## Build mocks
 	@go install github.com/vektra/mockery/v2@latest
 	@~/go/bin/mockery --all --dir $(USECASE_DIR) --output $(USECASE_DIR)/mocks --case underscore
 
+run: ## Run the application
+	go run cmd/shipping_recommendations/main.go
+
 dep: ## Build dependencies
 	go mod download
 
