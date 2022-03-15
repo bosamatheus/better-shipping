@@ -3,12 +3,12 @@ package repository
 import "github.com/bosamatheus/better-shipping/shipping-recommendations/internal/vo"
 
 type ShippingOptionsAPIClient struct {
-	externalAPI string
+	baseURL string
 }
 
-func NewShippingOptionsAPIClient(externalAPI string) *ShippingOptionsAPIClient {
+func NewShippingOptionsAPIClient(baseURL string) *ShippingOptionsAPIClient {
 	return &ShippingOptionsAPIClient{
-		externalAPI: externalAPI,
+		baseURL: baseURL,
 	}
 }
 

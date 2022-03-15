@@ -1,0 +1,6 @@
+env: default
+server:
+  port: 8080
+client:
+  shippingOptions:
+    baseUrl: http://localhost:8081/shipping-options
