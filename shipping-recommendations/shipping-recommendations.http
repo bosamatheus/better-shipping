@@ -1,0 +1,9 @@
+@baseUrl = http://localhost:8080
+
+### Health check Shipping Recommendations API
+
+GET {{baseUrl}}/health HTTP/1.1
+
+### Get list of recommended shipping options
+
+GET {{baseUrl}}/api/v1/shipping-recommendations HTTP/1.1
