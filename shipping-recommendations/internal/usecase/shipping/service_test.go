@@ -1,22 +1,22 @@
-package recommendation
+package shipping
 
 import (
 	"errors"
 	"testing"
 
-	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/usecase/recommendation/mocks"
+	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/usecase/shipping/mocks"
 	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/vo"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestService_GetRecommendations(t *testing.T) {
+func TestService_GetShippingRecommendations(t *testing.T) {
 	t.Run("No shipping options available", func(t *testing.T) {
 		want := []vo.ShippingOption{}
 		repoMock := new(mocks.Repository)
 		repoMock.On("GetShippingOptions").Return([]vo.ShippingOption{}, nil)
 		s := NewService(repoMock)
 
-		got, err := s.GetRecommendations()
+		got, err := s.GetShippingRecommendations()
 
 		assert.Equal(t, want, got)
 		assert.Nil(t, err)
@@ -28,7 +28,7 @@ func TestService_GetRecommendations(t *testing.T) {
 		repoMock.On("GetShippingOptions").Return(options, nil)
 		s := NewService(repoMock)
 
-		got, err := s.GetRecommendations()
+		got, err := s.GetShippingRecommendations()
 
 		assert.Equal(t, want, got)
 		assert.Nil(t, err)
@@ -40,7 +40,7 @@ func TestService_GetRecommendations(t *testing.T) {
 		repoMock.On("GetShippingOptions").Return(options, nil)
 		s := NewService(repoMock)
 
-		got, err := s.GetRecommendations()
+		got, err := s.GetShippingRecommendations()
 
 		assert.Equal(t, want, got)
 		assert.Nil(t, err)
@@ -52,7 +52,7 @@ func TestService_GetRecommendations(t *testing.T) {
 		repoMock.On("GetShippingOptions").Return(options, nil)
 		s := NewService(repoMock)
 
-		got, err := s.GetRecommendations()
+		got, err := s.GetShippingRecommendations()
 
 		assert.Equal(t, want, got)
 		assert.Nil(t, err)
@@ -64,7 +64,7 @@ func TestService_GetRecommendations(t *testing.T) {
 		repoMock.On("GetShippingOptions").Return(options, nil)
 		s := NewService(repoMock)
 
-		got, err := s.GetRecommendations()
+		got, err := s.GetShippingRecommendations()
 
 		assert.Equal(t, want, got)
 		assert.Nil(t, err)
@@ -75,7 +75,7 @@ func TestService_GetRecommendations(t *testing.T) {
 		repoMock.On("GetShippingOptions").Return(nil, errors.New("error"))
 		s := NewService(repoMock)
 
-		got, err := s.GetRecommendations()
+		got, err := s.GetShippingRecommendations()
 
 		assert.Nil(t, got)
 		assert.Error(t, err)

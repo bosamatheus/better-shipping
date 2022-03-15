@@ -12,6 +12,12 @@ func NewShippingOptionsAPIClient(externalAPI string) *ShippingOptionsAPIClient {
 	}
 }
 
-func (r *ShippingOptionsAPIClient) GetShippingOptions() (*[]vo.ShippingOption, error) {
-	return &[]vo.ShippingOption{}, nil
+func (r *ShippingOptionsAPIClient) GetShippingOptions() ([]vo.ShippingOption, error) {
+	options := []vo.ShippingOption{
+		{Name: "Option 4", ShippingType: "Delivery", Cost: 10.0, EstimatedDays: 3},
+		{Name: "Option 1", ShippingType: "Delivery", Cost: 10.0, EstimatedDays: 5},
+		{Name: "Option 2", ShippingType: "Custom", Cost: 5.0, EstimatedDays: 4},
+		{Name: "Option 3", ShippingType: "Pickup", Cost: 7.0, EstimatedDays: 1},
+	}
+	return options, nil
 }
