@@ -9,6 +9,7 @@ import (
 	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/api/router"
 	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/infrastructure/repository"
 	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/usecase/shipping"
+	"github.com/bosamatheus/better-shipping/shipping-recommendations/pkg/date"
 	"github.com/bosamatheus/better-shipping/shipping-recommendations/pkg/logwrapper"
 	"github.com/gofiber/fiber/v2"
 	fiberCors "github.com/gofiber/fiber/v2/middleware/cors"
@@ -23,7 +24,7 @@ func main() {
 	// logger
 	logger := logwrapper.NewStandardLogger(viper.GetString("env"))
 	f, err := os.OpenFile(
-		"logs/shipping_recommendations_"+time.Now().Format("2006-01-02")+".log",
+		getLogFilename(),
 		os.O_APPEND|os.O_CREATE|os.O_RDWR,
 		0666,
 	)
@@ -71,4 +72,8 @@ func loadEnvVariables() {
 	if err != nil {
 		log.Fatalf("fatal error while reading config file: %s", err)
 	}
+}
+
+func getLogFilename() string {
+	return "logs/shipping_recommendations_" + date.FormatDate(time.Now()) + ".log"
 }
