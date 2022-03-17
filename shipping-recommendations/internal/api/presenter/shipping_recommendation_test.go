@@ -10,12 +10,13 @@ import (
 
 func TestNewShippingRecommendationsResponse(t *testing.T) {
 	got := NewShippingRecommendationsResponse(newFixtureShippingOptions())
-	first := got.ShippingRecommendations[0]
+	firstOne := got.ShippingRecommendations[0]
 
-	assert.Equal(t, "Option 1", first.Name)
-	assert.Equal(t, "Delivery", first.ShippingType)
-	assert.Equal(t, 10.0, first.Cost)
-	assert.Equal(t, 3, first.EstimatedDays)
+	assert.Equal(t, 1, len(got.ShippingRecommendations))
+	assert.Equal(t, "Option 1", firstOne.Name)
+	assert.Equal(t, "Delivery", firstOne.ShippingType)
+	assert.Equal(t, 10.0, firstOne.Cost)
+	assert.Equal(t, 3, firstOne.EstimatedDays)
 }
 
 func TestShippingRecommendationsResponseMarshal(t *testing.T) {

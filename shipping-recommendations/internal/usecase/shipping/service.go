@@ -26,6 +26,7 @@ func (s *Service) GetShippingRecommendations() ([]vo.ShippingOption, error) {
 	}
 
 	recommendations := s.sortShippingOptions(options)
+
 	return recommendations, nil
 }
 
@@ -43,5 +44,6 @@ func (s *Service) sortShippingOptions(options []vo.ShippingOption) []vo.Shipping
 		lowerEstimatedDays := recommendations[i].EstimatedDays < recommendations[j].EstimatedDays
 		return sameCosts && lowerEstimatedDays || lowerCosts
 	})
+
 	return recommendations
 }

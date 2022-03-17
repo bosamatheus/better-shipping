@@ -17,13 +17,16 @@ import (
 	"github.com/spf13/viper"
 )
 
+const logFilePermission = 0o666
+
 func main() {
 	// load environment variables
 	loadEnvVariables()
 
 	// logger
 	logger := logwrapper.NewStandardLogger(viper.GetString("env"))
-	f, err := os.OpenFile(getLogFilename(), os.O_APPEND|os.O_CREATE|os.O_RDWR, 0666)
+	f, err := os.OpenFile(getLogFilename(), os.O_APPEND|os.O_CREATE|os.O_RDWR, logFilePermission)
+
 	if err != nil {
 		logger.Fatalf("error opening file: %v", err)
 	}
@@ -51,7 +54,11 @@ func main() {
 
 	// start server
 	port := viper.GetString("server.port")
-	log.Fatal(app.Listen(":" + port))
+	err = app.Listen(":" + port)
+
+	if err != nil {
+		logger.Fatalf("error starting server: %v", err)
+	}
 }
 
 func loadEnvVariables() {
@@ -59,6 +66,7 @@ func loadEnvVariables() {
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("./configs")
 	err := viper.ReadInConfig()
+
 	if err != nil {
 		log.Fatalf("fatal error while reading config file: %s", err)
 	}
@@ -77,5 +85,6 @@ func setupApp(service shipping.UseCase, logger logwrapper.Logger) *fiber.App {
 		return ctx.SendStatus(fiber.StatusOK)
 	})
 	router.ShippingRecommendationsRouter(app, service, logger)
+
 	return app
 }

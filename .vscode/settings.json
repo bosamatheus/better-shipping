@@ -2,5 +2,9 @@
     "conventionalCommits.scopes": [
         "shipping-recommendations",
         "better-shipping"
+    ],
+    "go.lintTool":"golangci-lint",
+    "go.lintFlags": [
+        "--fast"
     ]
 }

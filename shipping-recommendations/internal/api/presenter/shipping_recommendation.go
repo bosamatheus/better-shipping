@@ -10,9 +10,10 @@ type ShippingRecommendationsResponse struct {
 
 func NewShippingRecommendationsResponse(data []vo.ShippingOption) *ShippingRecommendationsResponse {
 	recommendations := make([]ShippingOptionResponse, len(data))
-	for i, v := range data {
-		recommendations[i] = *NewShippingOptionResponse(&v)
+	for i := range data {
+		recommendations[i] = *NewShippingOptionResponse(&data[i])
 	}
+
 	return &ShippingRecommendationsResponse{
 		ShippingRecommendations: recommendations,
 	}

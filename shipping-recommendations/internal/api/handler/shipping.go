@@ -15,7 +15,9 @@ func ListShippingRecommendations(service shipping.UseCase, logger logwrapper.Log
 			logger.DefaultError(err)
 			return c.Status(fiber.StatusInternalServerError).JSON(err)
 		}
-		response := presenter.NewShippingRecommendationsResponse(recommendations)
-		return c.JSON(response)
+
+		res := presenter.NewShippingRecommendationsResponse(recommendations)
+
+		return c.JSON(res)
 	}
 }

@@ -25,6 +25,7 @@ func NewStandardLogger(env string) *StandardLogger {
 	standardLogger.SetFormatter(&logrus.JSONFormatter{
 		TimestampFormat: time.RFC3339,
 	})
+
 	return &standardLogger
 }
 
@@ -39,7 +40,7 @@ func (l *StandardLogger) InvalidArgError(argumentName string) {
 }
 
 // InvalidArgValueError is a standard invalid argument value message
-func (l *StandardLogger) InvalidArgValueError(argumentName string, argumentValue string) {
+func (l *StandardLogger) InvalidArgValueError(argumentName, argumentValue string) {
 	l.Errorf(invalidArgValueEvent.message, argumentName, argumentValue)
 }
 

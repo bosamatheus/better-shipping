@@ -2,7 +2,7 @@ package handler
 
 import (
 	"errors"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 
@@ -24,13 +24,14 @@ func TestListShippingRecommendations(t *testing.T) {
 		app := fiber.New()
 		app.Get(path, ListShippingRecommendations(serviceMock, loggerMock))
 
-		req, _ := http.NewRequest("GET", path, nil)
+		req, _ := http.NewRequest("GET", path, http.NoBody)
 		res, err := app.Test(req, -1)
-		body, _ := ioutil.ReadAll(res.Body)
+		assert.NoError(t, err)
+		defer res.Body.Close()
+		body, _ := io.ReadAll(res.Body)
 
 		assert.Equal(t, http.StatusOK, res.StatusCode)
 		assert.Contains(t, string(body), "Delivery")
-		assert.NoError(t, err)
 	})
 
 	t.Run("Error", func(t *testing.T) {
@@ -41,8 +42,10 @@ func TestListShippingRecommendations(t *testing.T) {
 		app := fiber.New()
 		app.Get(path, ListShippingRecommendations(serviceMock, loggerMock))
 
-		req, _ := http.NewRequest("GET", path, nil)
+		req, _ := http.NewRequest("GET", path, http.NoBody)
 		res, err := app.Test(req, -1)
+		assert.NoError(t, err)
+		defer res.Body.Close()
 
 		assert.Equal(t, http.StatusInternalServerError, res.StatusCode)
 		assert.NoError(t, err)

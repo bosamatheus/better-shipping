@@ -12,7 +12,5 @@ const v1BasePath = "/api/v1"
 // ShippingRecommendationsRouter is the router for shipping recommendations
 func ShippingRecommendationsRouter(app *fiber.App, service shipping.UseCase, logger logwrapper.Logger) {
 	v1 := app.Group(v1BasePath)
-	{
-		v1.Get("/shipping-recommendations", handler.ListShippingRecommendations(service, logger))
-	}
+	v1.Get("/shipping-recommendations", handler.ListShippingRecommendations(service, logger))
 }
