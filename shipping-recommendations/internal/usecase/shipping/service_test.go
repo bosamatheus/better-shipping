@@ -10,7 +10,7 @@ import (
 )
 
 func TestService_GetShippingRecommendations(t *testing.T) {
-	t.Run("No shipping options available", func(t *testing.T) {
+	t.Run("NoShippingOptionsAvailable", func(t *testing.T) {
 		want := []vo.ShippingOption{}
 		repoMock := new(mocks.Repository)
 		repoMock.On("GetShippingOptions").Return([]vo.ShippingOption{}, nil)
@@ -22,7 +22,7 @@ func TestService_GetShippingRecommendations(t *testing.T) {
 		assert.Nil(t, err)
 	})
 
-	t.Run("Same shipping costs and same estimated delivery dates", func(t *testing.T) {
+	t.Run("SameShippingCostsAndSameEstimatedDeliveryDates", func(t *testing.T) {
 		options, want := newFixtureSameCostsAndSameDaysShippingOptions()
 		repoMock := new(mocks.Repository)
 		repoMock.On("GetShippingOptions").Return(options, nil)
@@ -34,7 +34,7 @@ func TestService_GetShippingRecommendations(t *testing.T) {
 		assert.Nil(t, err)
 	})
 
-	t.Run("Same shipping costs and different estimated delivery dates", func(t *testing.T) {
+	t.Run("SameShippingCostsAndDifferentEstimatedDeliveryDates", func(t *testing.T) {
 		options, want := newFixtureSameCostsAndDifferentDaysShippingOptions()
 		repoMock := new(mocks.Repository)
 		repoMock.On("GetShippingOptions").Return(options, nil)
@@ -46,7 +46,7 @@ func TestService_GetShippingRecommendations(t *testing.T) {
 		assert.Nil(t, err)
 	})
 
-	t.Run("Different shipping costs and same estimated delivery dates", func(t *testing.T) {
+	t.Run("DifferentShippingCostsAndSameEstimatedDeliveryDates", func(t *testing.T) {
 		options, want := newFixtureDifferentCostsAndSameDaysShippingOptions()
 		repoMock := new(mocks.Repository)
 		repoMock.On("GetShippingOptions").Return(options, nil)
@@ -58,7 +58,7 @@ func TestService_GetShippingRecommendations(t *testing.T) {
 		assert.Nil(t, err)
 	})
 
-	t.Run("Different shipping costs and different estimated delivery dates", func(t *testing.T) {
+	t.Run("DifferentShippingCostsAndDifferentEstimatedDeliveryDates", func(t *testing.T) {
 		options, want := newFixtureDifferentCostsAndDifferentDaysShippingOptions()
 		repoMock := new(mocks.Repository)
 		repoMock.On("GetShippingOptions").Return(options, nil)
@@ -70,7 +70,7 @@ func TestService_GetShippingRecommendations(t *testing.T) {
 		assert.Nil(t, err)
 	})
 
-	t.Run("Error while getting shipping options", func(t *testing.T) {
+	t.Run("ErrorWhileGettingShippingOptions", func(t *testing.T) {
 		repoMock := new(mocks.Repository)
 		repoMock.On("GetShippingOptions").Return(nil, errors.New("error"))
 		s := NewService(repoMock)
