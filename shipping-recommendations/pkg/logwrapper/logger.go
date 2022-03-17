@@ -17,7 +17,7 @@ const (
 	productionEnv  = "production"
 )
 
-// NewStandardLogger initializes the standard logger
+// NewStandardLogger initializes a logrus-based standard logger according to the environment
 func NewStandardLogger(env string) *StandardLogger {
 	baseLogger := logrus.New()
 	standardLogger := StandardLogger{baseLogger}
