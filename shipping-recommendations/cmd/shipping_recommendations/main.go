@@ -23,11 +23,7 @@ func main() {
 
 	// logger
 	logger := logwrapper.NewStandardLogger(viper.GetString("env"))
-	f, err := os.OpenFile(
-		getLogFilename(),
-		os.O_APPEND|os.O_CREATE|os.O_RDWR,
-		0666,
-	)
+	f, err := os.OpenFile(getLogFilename(), os.O_APPEND|os.O_CREATE|os.O_RDWR, 0666)
 	if err != nil {
 		logger.Fatalf("error opening file: %v", err)
 	}
@@ -44,20 +40,14 @@ func main() {
 	service := shipping.NewService(repo)
 
 	// routers
-	app := fiber.New()
+	app := setupApp(service, logger)
+
+	// middlewares
 	app.Use(fiberCors.New())
 	app.Use(fiberLogger.New(fiberLogger.Config{
 		Output:     mw,
 		TimeFormat: time.RFC3339,
 	}))
-	app.Get("/", func(ctx *fiber.Ctx) error {
-		return ctx.SendString("Shipping Recommendations API")
-	})
-	app.Get("/health", func(ctx *fiber.Ctx) error {
-		return ctx.SendStatus(fiber.StatusOK)
-	})
-	v1 := app.Group("/api/v1")
-	router.ShippingRecommendationsRouter(v1, service, logger)
 
 	// start server
 	port := viper.GetString("server.port")
@@ -76,4 +66,16 @@ func loadEnvVariables() {
 
 func getLogFilename() string {
 	return "logs/shipping_recommendations_" + date.FormatDate(time.Now()) + ".log"
+}
+
+func setupApp(service shipping.UseCase, logger logwrapper.Logger) *fiber.App {
+	app := fiber.New()
+	app.Get("/", func(ctx *fiber.Ctx) error {
+		return ctx.SendString("Shipping Recommendations API")
+	})
+	app.Get("/health", func(ctx *fiber.Ctx) error {
+		return ctx.SendStatus(fiber.StatusOK)
+	})
+	router.ShippingRecommendationsRouter(app, service, logger)
+	return app
 }
