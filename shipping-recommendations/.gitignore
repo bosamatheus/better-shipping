@@ -1,2 +1,5 @@
 # Test coverage
 *.out
+
+# Logs
+logs/*.log
