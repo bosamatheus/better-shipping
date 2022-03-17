@@ -4,28 +4,30 @@ on:
     branches:
       - main
   pull_request:
-defaults:
-  run:
-    working-directory: shipping-recommendations
 permissions:
   contents: read
 jobs:
-  test:
+  lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-go@v2
       - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
         with:
           version: latest
-jobs:
+          working-directory: shipping-recommendations
   test:
     name: Test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: shipping-recommendations
     steps:
-      - uses: actions/setup-go@v2
       - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: "1.17"
       - name: Test coverage
         run: make test-cover
