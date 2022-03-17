@@ -7,7 +7,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+const v1BasePath = "/api/v1"
+
 // ShippingRecommendationsRouter is the router for shipping recommendations
-func ShippingRecommendationsRouter(r fiber.Router, service shipping.UseCase, logger logwrapper.Logger) {
-	r.Get("/shipping-recommendations", handler.ListShippingRecommendations(service, logger))
+func ShippingRecommendationsRouter(app *fiber.App, service shipping.UseCase, logger logwrapper.Logger) {
+	v1 := app.Group(v1BasePath)
+	{
+		v1.Get("/shipping-recommendations", handler.ListShippingRecommendations(service, logger))
+	}
 }

@@ -1,4 +1,5 @@
-USECASE_DIR=internal/usecase/recommendation
+USECASE_DIR=internal/usecase/shipping
+LOGWRAPPER_DIR=pkg/logwrapper
 
 .DEFAULT_GOAL := help
 
@@ -11,6 +12,7 @@ test-cover: ## Test with coverage
 build-mocks: ## Build mocks
 	@go install github.com/vektra/mockery/v2@latest
 	@~/go/bin/mockery --all --dir $(USECASE_DIR) --output $(USECASE_DIR)/mocks --case underscore
+	@~/go/bin/mockery --all --dir $(LOGWRAPPER_DIR) --output $(LOGWRAPPER_DIR)/mocks --case underscore
 
 run: ## Run the application
 	go run cmd/shipping_recommendations/main.go

@@ -13,31 +13,8 @@ type UseCase struct {
 	mock.Mock
 }
 
-// GetRecommendations provides a mock function with given fields:
-func (_m *UseCase) GetRecommendations() ([]vo.ShippingOption, error) {
-	ret := _m.Called()
-
-	var r0 []vo.ShippingOption
-	if rf, ok := ret.Get(0).(func() []vo.ShippingOption); ok {
-		r0 = rf()
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]vo.ShippingOption)
-		}
-	}
-
-	var r1 error
-	if rf, ok := ret.Get(1).(func() error); ok {
-		r1 = rf()
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// getShippingOptions provides a mock function with given fields:
-func (_m *UseCase) getShippingOptions() ([]vo.ShippingOption, error) {
+// GetShippingRecommendations provides a mock function with given fields:
+func (_m *UseCase) GetShippingRecommendations() ([]vo.ShippingOption, error) {
 	ret := _m.Called()
 
 	var r0 []vo.ShippingOption
