@@ -28,9 +28,9 @@ func TestListShippingRecommendations(t *testing.T) {
 		res, err := app.Test(req, -1)
 		body, _ := ioutil.ReadAll(res.Body)
 
-		assert.Nil(t, err)
 		assert.Equal(t, http.StatusOK, res.StatusCode)
 		assert.Contains(t, string(body), "Delivery")
+		assert.NoError(t, err)
 	})
 
 	t.Run("Error", func(t *testing.T) {
@@ -44,8 +44,8 @@ func TestListShippingRecommendations(t *testing.T) {
 		req, _ := http.NewRequest("GET", path, nil)
 		res, err := app.Test(req, -1)
 
-		assert.Nil(t, err)
 		assert.Equal(t, http.StatusInternalServerError, res.StatusCode)
+		assert.NoError(t, err)
 	})
 }
 

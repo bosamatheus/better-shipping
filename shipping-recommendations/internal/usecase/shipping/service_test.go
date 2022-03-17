@@ -19,7 +19,7 @@ func TestService_GetShippingRecommendations(t *testing.T) {
 		got, err := s.GetShippingRecommendations()
 
 		assert.Equal(t, want, got)
-		assert.Nil(t, err)
+		assert.NoError(t, err)
 	})
 
 	t.Run("SameShippingCostsAndSameEstimatedDeliveryDates", func(t *testing.T) {
@@ -31,7 +31,7 @@ func TestService_GetShippingRecommendations(t *testing.T) {
 		got, err := s.GetShippingRecommendations()
 
 		assert.Equal(t, want, got)
-		assert.Nil(t, err)
+		assert.NoError(t, err)
 	})
 
 	t.Run("SameShippingCostsAndDifferentEstimatedDeliveryDates", func(t *testing.T) {
@@ -43,7 +43,7 @@ func TestService_GetShippingRecommendations(t *testing.T) {
 		got, err := s.GetShippingRecommendations()
 
 		assert.Equal(t, want, got)
-		assert.Nil(t, err)
+		assert.NoError(t, err)
 	})
 
 	t.Run("DifferentShippingCostsAndSameEstimatedDeliveryDates", func(t *testing.T) {
@@ -55,7 +55,7 @@ func TestService_GetShippingRecommendations(t *testing.T) {
 		got, err := s.GetShippingRecommendations()
 
 		assert.Equal(t, want, got)
-		assert.Nil(t, err)
+		assert.NoError(t, err)
 	})
 
 	t.Run("DifferentShippingCostsAndDifferentEstimatedDeliveryDates", func(t *testing.T) {
@@ -67,7 +67,7 @@ func TestService_GetShippingRecommendations(t *testing.T) {
 		got, err := s.GetShippingRecommendations()
 
 		assert.Equal(t, want, got)
-		assert.Nil(t, err)
+		assert.NoError(t, err)
 	})
 
 	t.Run("ErrorWhileGettingShippingOptions", func(t *testing.T) {
