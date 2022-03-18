@@ -6,19 +6,19 @@ import (
 	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/vo"
 )
 
-// Service is the use case for shipping recommendations
+// Service is the use case for Shipping Recommendations.
 type Service struct {
 	repo Repository
 }
 
-// NewService returns a new shipping recommendations use case
+// NewService returns a new Shipping Recommendations use case.
 func NewService(repo Repository) *Service {
 	return &Service{
 		repo: repo,
 	}
 }
 
-// GetShippingRecommendations returns the shipping recommendations
+// GetShippingRecommendations returns Shipping Recommendations.
 func (s *Service) GetShippingRecommendations() ([]vo.ShippingOption, error) {
 	options, err := s.getShippingOptions()
 	if err != nil {

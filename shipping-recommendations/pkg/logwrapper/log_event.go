@@ -1,6 +1,6 @@
 package logwrapper
 
-// LogEvent represents a standard log event
+// LogEvent represents a standard log event.
 type LogEvent struct {
 	message string
 }

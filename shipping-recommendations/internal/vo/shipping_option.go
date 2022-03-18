@@ -1,6 +1,6 @@
 package vo
 
-// ShippingOption is a value object for shipping option
+// ShippingOption is a value object for Shipping Option.
 type ShippingOption struct {
 	Name          string
 	ShippingType  string
