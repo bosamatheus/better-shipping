@@ -1,0 +1,42 @@
+basePath: /api
+definitions:
+  presenter.ShippingOptionResponse:
+    properties:
+      cost:
+        type: number
+      estimated_days:
+        type: integer
+      name:
+        type: string
+      type:
+        type: string
+    type: object
+  presenter.ShippingRecommendationsResponse:
+    properties:
+      shipping_recommendations:
+        items:
+          $ref: '#/definitions/presenter.ShippingOptionResponse'
+        type: array
+    type: object
+info:
+  contact: {}
+  description: A RESTful API able to recommend the same shipping options ordered by
+    the best combination of cost and time.
+  title: Shipping Recommendations API
+  version: "0.1"
+paths:
+  /v1/shipping-recommendations:
+    get:
+      description: List recommended shipping options sorted by the best combination
+        of cost and time.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/presenter.ShippingRecommendationsResponse'
+      summary: List recommended shipping options
+      tags:
+      - Shipping Recommendations
+swagger: "2.0"

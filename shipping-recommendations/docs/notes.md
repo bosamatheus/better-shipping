@@ -11,6 +11,7 @@
 - Inversion of Control (IoC)
 - Logging
 - Linting
+- API Documentation (Swagger)
 
 ## Anti-Patterns / Code Smells
 

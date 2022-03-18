@@ -30,7 +30,6 @@ linters:
     - exhaustive
     - goconst
     - gocritic
-    - godot
     - gofmt
     - goimports
     - gomnd

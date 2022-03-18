@@ -6,19 +6,26 @@ import (
 	"os"
 	"time"
 
+	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/api/router"
 	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/infrastructure/repository"
 	"github.com/bosamatheus/better-shipping/shipping-recommendations/internal/usecase/shipping"
 	"github.com/bosamatheus/better-shipping/shipping-recommendations/pkg/date"
 	"github.com/bosamatheus/better-shipping/shipping-recommendations/pkg/logwrapper"
-	"github.com/gofiber/fiber/v2"
+	fiber "github.com/gofiber/fiber/v2"
 	fiberCors "github.com/gofiber/fiber/v2/middleware/cors"
 	fiberLogger "github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/spf13/viper"
+
+	_ "github.com/bosamatheus/better-shipping/shipping-recommendations/api"
 )
 
 const logFilePermission = 0o666
 
+// @title        Shipping Recommendations API
+// @version      0.1
+// @description  A RESTful API able to recommend the same shipping options ordered by the best combination of cost and time.
+// @basePath     /api
 func main() {
 	// load environment variables
 	loadEnvVariables()
@@ -84,6 +91,7 @@ func setupApp(service shipping.UseCase, logger logwrapper.Logger) *fiber.App {
 	app.Get("/health", func(ctx *fiber.Ctx) error {
 		return ctx.SendStatus(fiber.StatusOK)
 	})
+	app.Get("/swagger/*", swagger.HandlerDefault)
 	router.ShippingRecommendationsRouter(app, service, logger)
 
 	return app

@@ -7,7 +7,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// ListShippingRecommendations returns a list of recommended shipping options.
+// ListShippingRecommendations returns a list of recommended Shipping Options.
+// @summary      List recommended shipping options
+// @description  List recommended shipping options sorted by the best combination of cost and time.
+// @tags         Shipping Recommendations
+// @produce      json
+// @success      200  {object}  presenter.ShippingRecommendationsResponse
+// @router       /v1/shipping-recommendations [get]
 func ListShippingRecommendations(service shipping.UseCase, logger logwrapper.Logger) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		recommendations, err := service.GetShippingRecommendations()
