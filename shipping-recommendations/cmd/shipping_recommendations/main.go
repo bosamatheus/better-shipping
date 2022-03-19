@@ -17,6 +17,7 @@ import (
 	fiber "github.com/gofiber/fiber/v2"
 	fiberCORS "github.com/gofiber/fiber/v2/middleware/cors"
 	fiberLogger "github.com/gofiber/fiber/v2/middleware/logger"
+	fiberRecover "github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/spf13/viper"
 
 	_ "github.com/bosamatheus/better-shipping/shipping-recommendations/api"
@@ -57,6 +58,7 @@ func main() {
 
 	// middlewares
 	app.Use(fiberCORS.New())
+	app.Use(fiberRecover.New())
 	app.Use(fiberLogger.New(fiberLogger.Config{
 		Output:     mw,
 		TimeFormat: time.RFC3339,
