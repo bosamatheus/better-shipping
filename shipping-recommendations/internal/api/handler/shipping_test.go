@@ -38,7 +38,7 @@ func TestListShippingRecommendations(t *testing.T) {
 		serviceMock := new(shippingMocks.UseCase)
 		serviceMock.On("GetShippingRecommendations").Return(nil, errors.New("error"))
 		loggerMock := new(logwrapperMocks.Logger)
-		loggerMock.On("DefaultError", errors.New("error")).Return()
+		loggerMock.On("UnexpectedErr", errors.New("error")).Return()
 		app := fiber.New()
 		app.Get(path, ListShippingRecommendations(serviceMock, loggerMock))
 

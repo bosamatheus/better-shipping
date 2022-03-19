@@ -2,8 +2,9 @@ package logwrapper
 
 // Logger is the interface for the log wrapper.
 type Logger interface {
-	DefaultError(err error)
-	InvalidArgError(argumentName string)
-	InvalidArgValueError(argumentName, argumentValue string)
-	MissingArgError(argumentName string)
+	InfoMsg(msg string)
+	UnexpectedErr(err error)
+	InvalidArgErr(argName string)
+	InvalidArgValErr(argName, argVal string)
+	MissingArgErr(argName string)
 }

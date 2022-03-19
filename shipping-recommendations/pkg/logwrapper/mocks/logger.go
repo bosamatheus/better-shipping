@@ -9,22 +9,27 @@ type Logger struct {
 	mock.Mock
 }
 
-// DefaultError provides a mock function with given fields: err
-func (_m *Logger) DefaultError(err error) {
+// InfoMsg provides a mock function with given fields: msg
+func (_m *Logger) InfoMsg(msg string) {
+	_m.Called(msg)
+}
+
+// InvalidArgErr provides a mock function with given fields: argName
+func (_m *Logger) InvalidArgErr(argName string) {
+	_m.Called(argName)
+}
+
+// InvalidArgValErr provides a mock function with given fields: argName, argVal
+func (_m *Logger) InvalidArgValErr(argName string, argVal string) {
+	_m.Called(argName, argVal)
+}
+
+// MissingArgErr provides a mock function with given fields: argName
+func (_m *Logger) MissingArgErr(argName string) {
+	_m.Called(argName)
+}
+
+// UnexpectedErr provides a mock function with given fields: err
+func (_m *Logger) UnexpectedErr(err error) {
 	_m.Called(err)
-}
-
-// InvalidArgError provides a mock function with given fields: argumentName
-func (_m *Logger) InvalidArgError(argumentName string) {
-	_m.Called(argumentName)
-}
-
-// InvalidArgValueError provides a mock function with given fields: argumentName, argumentValue
-func (_m *Logger) InvalidArgValueError(argumentName string, argumentValue string) {
-	_m.Called(argumentName, argumentValue)
-}
-
-// MissingArgError provides a mock function with given fields: argumentName
-func (_m *Logger) MissingArgError(argumentName string) {
-	_m.Called(argumentName)
 }

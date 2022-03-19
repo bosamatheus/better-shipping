@@ -2,12 +2,13 @@ package logwrapper
 
 // LogEvent represents a standard log event.
 type LogEvent struct {
-	message string
+	msg string
 }
 
 var (
-	genericErrorEvent    = LogEvent{"an error has occurred: %s"}
-	invalidArgEvent      = LogEvent{"invalid arg: %s"}
-	invalidArgValueEvent = LogEvent{"invalid value for argument: %s: %v"}
-	missingArgEvent      = LogEvent{"missing arg: %s"}
+	unexpectedErrEvent    = LogEvent{"an unexpected error has occurred: %s"}
+	infoMsgEvent          = LogEvent{"[INFO] %s"}
+	invalidArgErrEvent    = LogEvent{"invalid arg: %s"}
+	invalidArgValErrEvent = LogEvent{"invalid value for argument: %s: %v"}
+	missingArgErrEvent    = LogEvent{"missing arg: %s"}
 )

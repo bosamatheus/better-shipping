@@ -18,7 +18,7 @@ func ListShippingRecommendations(service shipping.UseCase, logger logwrapper.Log
 	return func(c *fiber.Ctx) error {
 		recommendations, err := service.GetShippingRecommendations()
 		if err != nil {
-			logger.DefaultError(err)
+			logger.UnexpectedErr(err)
 			return c.Status(fiber.StatusInternalServerError).JSON(err)
 		}
 

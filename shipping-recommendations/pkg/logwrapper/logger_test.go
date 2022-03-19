@@ -40,46 +40,57 @@ func TestNewStandardLogger(t *testing.T) {
 	}
 }
 
-func TestStandardLogger_DefaultError(t *testing.T) {
+func TestStandardLogger_InfoMsg(t *testing.T) {
 	nullLogger, hook := test.NewNullLogger()
 	standardLogger := StandardLogger{nullLogger}
 
-	standardLogger.DefaultError(errors.New("generic error"))
+	standardLogger.InfoMsg("msg")
 
 	assert.Equal(t, 1, len(hook.Entries))
-	assert.Equal(t, logrus.ErrorLevel, hook.LastEntry().Level)
-	assert.Equal(t, "an error has occurred: generic error", hook.LastEntry().Message)
+	assert.Equal(t, logrus.InfoLevel, hook.LastEntry().Level)
+	assert.Equal(t, "[INFO] msg", hook.LastEntry().Message)
 }
 
-func TestStandardLogger_InvalidArgError(t *testing.T) {
+func TestStandardLogger_UnexpectedErr(t *testing.T) {
 	nullLogger, hook := test.NewNullLogger()
 	standardLogger := StandardLogger{nullLogger}
 
-	standardLogger.InvalidArgError("argumentName")
+	standardLogger.UnexpectedErr(errors.New("error"))
 
 	assert.Equal(t, 1, len(hook.Entries))
 	assert.Equal(t, logrus.ErrorLevel, hook.LastEntry().Level)
-	assert.Equal(t, "invalid arg: argumentName", hook.LastEntry().Message)
+	assert.Equal(t, "an unexpected error has occurred: error", hook.LastEntry().Message)
 }
 
-func TestStandardLogger_InvalidArgValueError(t *testing.T) {
+func TestStandardLogger_InvalidArgErr(t *testing.T) {
 	nullLogger, hook := test.NewNullLogger()
 	standardLogger := StandardLogger{nullLogger}
 
-	standardLogger.InvalidArgValueError("argumentName", "argumentValue")
+	standardLogger.InvalidArgErr("argName")
 
 	assert.Equal(t, 1, len(hook.Entries))
 	assert.Equal(t, logrus.ErrorLevel, hook.LastEntry().Level)
-	assert.Equal(t, "invalid value for argument: argumentName: argumentValue", hook.LastEntry().Message)
+	assert.Equal(t, "invalid arg: argName", hook.LastEntry().Message)
 }
 
-func TestStandardLogger_MissingArgError(t *testing.T) {
+func TestStandardLogger_InvalidArgValErr(t *testing.T) {
 	nullLogger, hook := test.NewNullLogger()
 	standardLogger := StandardLogger{nullLogger}
 
-	standardLogger.MissingArgError("argumentName")
+	standardLogger.InvalidArgValErr("argName", "argVal")
 
 	assert.Equal(t, 1, len(hook.Entries))
 	assert.Equal(t, logrus.ErrorLevel, hook.LastEntry().Level)
-	assert.Equal(t, "missing arg: argumentName", hook.LastEntry().Message)
+	assert.Equal(t, "invalid value for argument: argName: argVal", hook.LastEntry().Message)
+}
+
+func TestStandardLogger_MissingArgErr(t *testing.T) {
+	nullLogger, hook := test.NewNullLogger()
+	standardLogger := StandardLogger{nullLogger}
+
+	standardLogger.MissingArgErr("argName")
+
+	assert.Equal(t, 1, len(hook.Entries))
+	assert.Equal(t, logrus.ErrorLevel, hook.LastEntry().Level)
+	assert.Equal(t, "missing arg: argName", hook.LastEntry().Message)
 }
