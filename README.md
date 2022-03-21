@@ -11,3 +11,11 @@ The overall architecture of the application is as follows:
 ## Components
 
 - Shipping Recommendations API (Golang)
+
+## Execution
+
+You can run this project using Docker with the following command:
+
+```shell
+docker-compose up -d
+```

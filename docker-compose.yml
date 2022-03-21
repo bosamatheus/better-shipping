@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  shipping-recommendations:
+    build: shipping-recommendations/
+    container_name: shipping-recommendations
+    ports:
+      - "8080:8080"
+    networks:
+      - better-shipping
+networks:
+  better-shipping:
+    driver: bridge
